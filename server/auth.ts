@@ -81,9 +81,11 @@ async function comparePasswords(supplied: string, stored: string) {
   return timingSafeEqual(hashedBuf, suppliedBuf);
 }
 
-export function setupAuth(app: Express) {
-  // ADDED: Manually force the session table to exist so it doesn't crash!
-  pool.query(`
+// 1. Add "async" right here
+export async function setupAuth(app: Express) {
+  
+  // 2. Add "await" right here so the server stops and waits!
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS "session" (
       "sid" varchar NOT NULL COLLATE "default",
       "sess" json NOT NULL,
