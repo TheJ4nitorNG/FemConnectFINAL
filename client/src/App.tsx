@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { Loader2 } from "lucide-react";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { InstallPrompt } from "@/components/InstallPrompt";
+import { useState, useEffect } from "react";
 
 import Landing from "@/pages/Landing";
 import AuthPage from "@/pages/Auth";
@@ -21,7 +22,6 @@ import NotFound from "@/pages/not-found";
 
 const PROFILE_PICTURE_REQUIRED_AFTER = new Date("2026-01-08T00:00:00Z");
 
-// Check if a user is required to have a profile picture
 function isProfilePictureRequired(user: { createdAt?: Date | string | null; profilePicture?: string | null }) {
   if (user.profilePicture) return false;
   if (!user.createdAt) return false; 
@@ -29,7 +29,6 @@ function isProfilePictureRequired(user: { createdAt?: Date | string | null; prof
   return createdAt >= PROFILE_PICTURE_REQUIRED_AFTER;
 }
 
-// Wrapper for protected routes
 function ProtectedRoute({ component: Component, allowWithoutProfilePic = false }: { component: React.ComponentType; allowWithoutProfilePic?: boolean }) {
   const { user, isLoading } = useAuth();
 
@@ -53,9 +52,20 @@ function ProtectedRoute({ component: Component, allowWithoutProfilePic = false }
 }
 
 function Router() {
-  const { user, isLoading } = useAuth();
+  const auth = useAuth() as any;
+  const user = auth.user;
+  const isLoading = auth.isLoading;
+  const error = auth.error;
 
-  if (isLoading) {
+  // Anti-Skeleton Failsafe: If the database auth check gets stuck in a loop, 
+  // we force the skeleton to drop after 1 second so you can actually log in!
+  const [forceShow, setForceShow] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setForceShow(true), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading && !error && !forceShow) {
      return (
        <div className="min-h-screen flex items-center justify-center bg-white">
          <div className="animate-pulse flex flex-col items-center gap-4">
@@ -72,15 +82,15 @@ function Router() {
         {() => user ? (isProfilePictureRequired(user) ? <Redirect to="/complete-profile" /> : <Dashboard />) : <Landing />}
       </Route>
       
-      {/* Auth Routes */}
-      <Route path="/auth" component={AuthPage} />
-      <Route path="/login" component={AuthPage} />
-      <Route path="/register" component={AuthPage} />
-      <Route path="/reset-password" component={ResetPassword} />
+      {/* Auth Routes - Wrapped in standard JSX children to guarantee rendering! */}
+      <Route path="/auth"><AuthPage /></Route>
+      <Route path="/login"><AuthPage /></Route>
+      <Route path="/register"><AuthPage /></Route>
+      <Route path="/reset-password"><ResetPassword /></Route>
       
       {/* Legal Routes */}
-      <Route path="/privacy" component={PrivacyPolicy} />
-      <Route path="/terms" component={TermsOfService} />
+      <Route path="/privacy"><PrivacyPolicy /></Route>
+      <Route path="/terms"><TermsOfService /></Route>
       
       {/* Protected Routes */}
       <Route path="/complete-profile">
@@ -100,7 +110,7 @@ function Router() {
       </Route>
 
       {/* Fallback */}
-      <Route component={NotFound} />
+      <Route><NotFound /></Route>
     </Switch>
   );
 }
