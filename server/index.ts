@@ -66,10 +66,17 @@ app.use((req, res, next) => {
 (async () => {
   await registerRoutes(httpServer, app);
 
+  // 🔥 THE SHIELD: Catch missing API routes before they send HTML!
+  app.use("/api", (req, res) => {
+    res.status(404).json({ message: "API route missing: " + req.method + " " + req.path });
+  });
+
+  // Your existing error handler
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
-
+    
+    console.error("Backend Error:", err); // Keep this so we can see real errors!
     res.status(status).json({ message });
   });
 
