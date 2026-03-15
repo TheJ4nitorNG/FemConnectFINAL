@@ -89,42 +89,66 @@ export async function registerRoutes(
     res.json(user);
   });
 
-  app.patch("/api/user", async (req, res) => {
-    if (!req.isAuthenticated()) return res.sendStatus(401);
-    const { bio, profilePicture, bannerPicture, username } = req.body;
-    const userId = (req.user as any).id;
-    
-    const updates: Record<string, any> = {};
-    if (bio !== undefined) updates.bio = bio;
-    if (profilePicture !== undefined) updates.profilePicture = profilePicture;
-    if (bannerPicture !== undefined) updates.bannerPicture = bannerPicture;
-    
-    if (username !== undefined) {
-      const trimmedUsername = username.trim().toLowerCase();
-      if (trimmedUsername.length < 3) {
-        return res.status(400).json({ error: "Username must be at least 3 characters" });
+  app.patch("/api/user", async (req, res, next) => {
+    try {
+      if (!req.isAuthenticated()) return res.sendStatus(401);
+      
+      // 1. Destructure ALL possible fields, including the match questions!
+      const { 
+        bio, profilePicture, bannerPicture, username,
+        seekingType, relationshipType, meetingPreference, 
+        gamingPlatform, catOrDog, drinking, smoking 
+      } = req.body;
+      
+      const userId = (req.user as any).id;
+      const updates: Record<string, any> = {};
+      
+      // 2. Add them to the updates object if they were sent in the request
+      if (bio !== undefined) updates.bio = bio;
+      if (profilePicture !== undefined) updates.profilePicture = profilePicture;
+      if (bannerPicture !== undefined) updates.bannerPicture = bannerPicture;
+      if (seekingType !== undefined) updates.seekingType = seekingType;
+      if (relationshipType !== undefined) updates.relationshipType = relationshipType;
+      if (meetingPreference !== undefined) updates.meetingPreference = meetingPreference;
+      if (gamingPlatform !== undefined) updates.gamingPlatform = gamingPlatform;
+      if (catOrDog !== undefined) updates.catOrDog = catOrDog;
+      if (drinking !== undefined) updates.drinking = drinking;
+      if (smoking !== undefined) updates.smoking = smoking;
+      
+      if (username !== undefined) {
+        const trimmedUsername = username.trim().toLowerCase();
+        if (trimmedUsername.length < 3) {
+          return res.status(400).json({ error: "Username must be at least 3 characters" });
+        }
+        if (trimmedUsername.length > 30) {
+          return res.status(400).json({ error: "Username must be at most 30 characters" });
+        }
+        if (!/^[a-z0-9_]+$/.test(trimmedUsername)) {
+          return res.status(400).json({ error: "Username can only contain letters, numbers, and underscores" });
+        }
+        const isAvailable = await storage.checkUsernameAvailability(trimmedUsername, userId);
+        if (!isAvailable) {
+          return res.status(400).json({ error: "Username is already taken" });
+        }
+        updates.username = trimmedUsername;
       }
-      if (trimmedUsername.length > 30) {
-        return res.status(400).json({ error: "Username must be at most 30 characters" });
+      
+      // 3. Failsafe: Prevent Drizzle from crashing if the updates object is completely empty
+      if (Object.keys(updates).length === 0) {
+        return res.json(req.user);
       }
-      if (!/^[a-z0-9_]+$/.test(trimmedUsername)) {
-        return res.status(400).json({ error: "Username can only contain letters, numbers, and underscores" });
-      }
-      const isAvailable = await storage.checkUsernameAvailability(trimmedUsername, userId);
-      if (!isAvailable) {
-        return res.status(400).json({ error: "Username is already taken" });
-      }
-      updates.username = trimmedUsername;
+      
+      const updatedUser = await storage.updateUser(userId, updates);
+      
+      req.login(updatedUser, (err) => {
+        if (err) console.error("Session refresh error:", err);
+        res.json(updatedUser);
+      });
+
+    } catch (error) {
+      // 4. Safely pass any database errors to the shield instead of crashing!
+      next(error); 
     }
-    
-    const updatedUser = await storage.updateUser(userId, updates);
-    
-    req.login(updatedUser, (err) => {
-      if (err) {
-        console.error("Session refresh error:", err);
-      }
-      res.json(updatedUser);
-    });
   });
 
   app.get("/api/messages/conversations", async (req, res) => {
