@@ -64,22 +64,23 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // 1. MUST BE FIRST: Register all API routes so the server knows they exist!
   await registerRoutes(httpServer, app);
 
-  // 🔥 THE SHIELD: Catch missing API routes before they send HTML!
+  // 2. MUST BE SECOND: The shield. Only catch things that registerRoutes missed.
   app.use("/api", (req, res) => {
     res.status(404).json({ message: "API route missing: " + req.method + " " + req.path });
   });
 
-  // Your existing error handler
+  // 3. MUST BE THIRD: The error handler. DON'T throw, just log!
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
-    
-    console.error("Backend Error:", err); // Keep this so we can see real errors!
+    console.error("Backend Error:", err);
     res.status(status).json({ message });
   });
 
+  // 4. MUST BE LAST: Serve the frontend React files
   if (app.get("env") === "development") {
     const { setupVite } = await import("./vite");
     await setupVite(httpServer, app);
