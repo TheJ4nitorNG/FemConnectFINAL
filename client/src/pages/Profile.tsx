@@ -672,6 +672,8 @@ export default function Profile() {
                             {user.relationshipType && <span className="px-2 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full text-xs">{user.relationshipType}</span>}
                             {user.meetingPreference && <span className="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs">{user.meetingPreference}</span>}
                             {user.gamingPlatform && <span className="px-2 py-1 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-xs">{user.gamingPlatform}</span>}
+                            {user.drinking && <span className="px-2 py-1 bg-gray-50 dark:bg-gray-900/30 text-gray-600 dark:text-gray-400 rounded-full text-xs">{user.drinking}</span>}
+                            {user.smoking && <span className="px-2 py-1 bg-gray-50 dark:bg-gray-900/30 text-gray-600 dark:text-gray-400 rounded-full text-xs">{user.smoking}</span>}
                           </div>
                         ) : (
                           <p className="text-gray-400 italic">You haven't answered teh match questions yet?! How else are we supposed to help find teh perfectest boi?!</p>
