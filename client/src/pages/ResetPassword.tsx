@@ -25,13 +25,13 @@ export default function ResetPassword() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (password.length < 6) {
-      toast({ title: "Password must be at least 6 characters", variant: "destructive" });
+    if (password.length < 10) {
+      toast({ title: "Password must be at least 10 characters", variant: "destructive" });
       return;
     }
     
     if (password !== confirmPassword) {
-      toast({ title: "Passwords don't match", variant: "destructive" });
+      toast({ title: "That doesn't match!", variant: "destructive" });
       return;
     }
 
@@ -46,12 +46,12 @@ export default function ResetPassword() {
       const data = await response.json();
       
       if (!response.ok) {
-        throw new Error(data.error || "Failed to reset password");
+        throw new Error(data.error || "FAILED! womp womp");
       }
       
       setSuccess(true);
     } catch (err: any) {
-      setError(err.message || "Something went wrong. Please try again.");
+      setError(err.message || "OOPS! Try that again");
     } finally {
       setIsSubmitting(false);
     }
@@ -73,9 +73,9 @@ export default function ResetPassword() {
             <div className="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-4">
               <ShieldCheck className="w-8 h-8 text-green-600" />
             </div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Password Reset Complete</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">You did it!</h2>
             <p className="text-gray-600 mb-6">
-              Your password has been successfully reset. You can now log in with your new password.
+              Your password has been successfully reset. Nao use it to log in.
             </p>
             <Link href="/login">
               <button
@@ -107,7 +107,7 @@ export default function ResetPassword() {
             <div className="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center mb-4">
               <AlertCircle className="w-8 h-8 text-red-600" />
             </div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">Invalid Reset Link</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">That's not teh right link!</h2>
             <p className="text-gray-600 mb-6">
               {error}
             </p>
@@ -139,7 +139,7 @@ export default function ResetPassword() {
         <div className="bg-white rounded-3xl shadow-xl border border-white/50 backdrop-blur-sm p-8">
           <h2 className="text-xl font-semibold text-gray-900 mb-2 text-center">Set New Password</h2>
           <p className="text-gray-600 mb-6 text-center text-sm">
-            Enter your new password below.
+            Make a new password, n make it STRONK.
           </p>
 
           {error && (
@@ -157,8 +157,8 @@ export default function ResetPassword() {
                 onChange={(e) => setPassword(e.target.value)}
                 data-testid="input-new-password"
                 className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all"
-                placeholder="Enter new password"
-                minLength={6}
+                placeholder="Enter da new pass"
+                minLength={10}
               />
             </div>
 
@@ -170,8 +170,8 @@ export default function ResetPassword() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 data-testid="input-confirm-password"
                 className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all"
-                placeholder="Confirm new password"
-                minLength={6}
+                placeholder="Confirm dat shi"
+                minLength={10}
               />
             </div>
 
@@ -181,7 +181,7 @@ export default function ResetPassword() {
               data-testid="button-reset-password"
               className="w-full py-3.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold shadow-lg hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {isSubmitting ? <Loader2 className="animate-spin w-5 h-5" /> : "Reset Password"}
+              {isSubmitting ? <Loader2 className="animate-spin w-5 h-5" /> : "Reset teh password"}
             </button>
           </form>
         </div>
