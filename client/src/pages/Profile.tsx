@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useRoute, useLocation } from "wouter";
 import { useUser, useUpdateUser } from "@/hooks/use-users";
 import { Layout } from "@/components/Layout";
-import { Loader2, MapPin, Calendar, Flag, User, AlertCircle, Camera, MessageCircle, Pencil, Check, X, Plus, Trash2, Clock, Send } from "lucide-react";
+import { Loader2, MapPin, Calendar, Flag, User, AlertCircle, Camera, MessageCircle, Pencil, Check, X, Plus, Trash2, Clock, Send, Heart } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/use-auth";
 import { useUpload } from "@/hooks/use-upload";
@@ -14,7 +14,6 @@ import { Textarea } from "@/components/ui/textarea";
 import type { ProfilePicture, StatusUpdate, User as UserType } from "@shared/schema";
 import { SEEKING_TYPES, RELATIONSHIP_TYPES, GAMING_PLATFORMS, MEETING_PREFERENCES } from "@shared/schema";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Heart } from "lucide-react";
 
 interface StatusWithUser extends StatusUpdate {
   user: UserType | undefined;
@@ -527,6 +526,7 @@ export default function Profile() {
                   )}
                 </section>
 
+                {/* THE CORRECTED MATCH QUESTIONS SECTION */}
                 {isOwnProfile && (
                   <section>
                     <div className="flex items-center justify-between mb-4 border-b border-gray-100 dark:border-gray-700 pb-2">
@@ -666,14 +666,15 @@ export default function Profile() {
                       </div>
                     ) : (
                       <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                        {user.seekingType || user.relationshipType || user.meetingPreference ? (
+                        {user.seekingType || user.relationshipType || user.meetingPreference || user.gamingPlatform || user.catOrDog || user.drinking || user.smoking ? (
                           <div className="flex flex-wrap gap-2">
                             {user.seekingType && <span className="px-2 py-1 bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 rounded-full text-xs">{user.seekingType}</span>}
                             {user.relationshipType && <span className="px-2 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full text-xs">{user.relationshipType}</span>}
                             {user.meetingPreference && <span className="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs">{user.meetingPreference}</span>}
                             {user.gamingPlatform && <span className="px-2 py-1 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-xs">{user.gamingPlatform}</span>}
-                            {user.drinking && <span className="px-2 py-1 bg-gray-50 dark:bg-gray-900/30 text-gray-600 dark:text-gray-400 rounded-full text-xs">{user.drinking}</span>}
-                            {user.smoking && <span className="px-2 py-1 bg-gray-50 dark:bg-gray-900/30 text-gray-600 dark:text-gray-400 rounded-full text-xs">{user.smoking}</span>}
+                            {user.catOrDog && <span className="px-2 py-1 bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-xs">{user.catOrDog}</span>}
+                            {user.drinking && <span className="px-2 py-1 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 rounded-full text-xs">{user.drinking}</span>}
+                            {user.smoking && <span className="px-2 py-1 bg-slate-50 dark:bg-slate-900/30 text-slate-600 dark:text-slate-400 rounded-full text-xs">{user.smoking}</span>}
                           </div>
                         ) : (
                           <p className="text-gray-400 italic">You haven't answered teh match questions yet?! How else are we supposed to help find teh perfectest boi?!</p>
