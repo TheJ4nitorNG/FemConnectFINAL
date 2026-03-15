@@ -146,7 +146,8 @@ export async function setupAuth(app: Express) {
     }
   });
 
-  app.post(api.auth.register.path, async (req, res, next) => {
+  // 1. Fixed Register Route
+  app.post("/api/register", async (req, res, next) => {
     try {
       const existingUser = await storage.getUserByUsername(req.body.username);
       if (existingUser) {
@@ -172,18 +173,21 @@ export async function setupAuth(app: Express) {
     }
   });
 
-  app.post(api.auth.login.path, passport.authenticate("local"), (req, res) => {
+  // 2. Fixed Login Route
+  app.post("/api/login", passport.authenticate("local"), (req, res) => {
     res.status(200).json(req.user);
   });
 
-  app.post(api.auth.logout.path, (req, res, next) => {
+  // 3. Fixed Logout Route
+  app.post("/api/logout", (req, res, next) => {
     req.logout((err) => {
       if (err) return next(err);
       res.sendStatus(200);
     });
   });
 
-  app.get(api.auth.me.path, (req, res) => {
+  // 4. Fixed Get User Route
+  app.get("/api/user", (req, res) => {
     if (!req.isAuthenticated()) return res.sendStatus(401);
     res.json(req.user);
   });
