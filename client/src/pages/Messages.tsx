@@ -105,8 +105,8 @@ export default function Messages() {
               {conversations.length === 0 ? (
                 <div className="p-6 text-center text-muted-foreground">
                   <MessageCircle className="w-12 h-12 mx-auto mb-3 text-muted-foreground/50" />
-                  <p>No conversations yet</p>
-                  <p className="text-sm mt-1">Start a conversation from someone's profile!</p>
+                  <p>It's lonely in here!</p>
+                  <p className="text-sm mt-1">Send someone a message, silly beans!</p>
                 </div>
               ) : (
                 <div className="divide-y">
@@ -197,8 +197,8 @@ export default function Messages() {
                     </div>
                   ) : messages.length === 0 ? (
                     <div className="text-center text-muted-foreground py-10">
-                      <p>No messages yet</p>
-                      <p className="text-sm">Say hello!</p>
+                      <p>It's empty in here!</p>
+                      <p className="text-sm">Say hai!</p>
                     </div>
                   ) : (
                     <div className="space-y-3">
@@ -257,8 +257,8 @@ export default function Messages() {
               <div className="flex-1 flex items-center justify-center text-muted-foreground">
                 <div className="text-center">
                   <MessageCircle className="w-16 h-16 mx-auto mb-4 text-muted-foreground/50" />
-                  <p className="text-lg font-medium">Select a conversation</p>
-                  <p className="text-sm">or start a new one from someone's profile</p>
+                  <p className="text-lg font-medium">Keep da convo flowing</p>
+                  <p className="text-sm">or send a new message from someone's profile!</p>
                 </div>
               </div>
             )}
