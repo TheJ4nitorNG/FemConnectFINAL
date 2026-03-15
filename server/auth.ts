@@ -82,6 +82,17 @@ async function comparePasswords(supplied: string, stored: string) {
 }
 
 export function setupAuth(app: Express) {
+  // ADDED: Manually force the session table to exist so it doesn't crash!
+  pool.query(`
+    CREATE TABLE IF NOT EXISTS "session" (
+      "sid" varchar NOT NULL COLLATE "default",
+      "sess" json NOT NULL,
+      "expire" timestamp(6) NOT NULL,
+      CONSTRAINT "session_pkey" PRIMARY KEY ("sid")
+    );
+    CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "session" ("expire");
+  `).catch(err => console.error("Failed to create session table:", err));
+
   const PgStore = connectPgSimple(session);
   
   const sessionSettings: session.SessionOptions = {
@@ -91,7 +102,7 @@ export function setupAuth(app: Express) {
     store: new PgStore({
       pool,
       tableName: "session",
-      createTableIfMissing: false, // Changed to false so it doesn't look for table.sql
+      createTableIfMissing: false, // Keep this false!
     }),
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000,
