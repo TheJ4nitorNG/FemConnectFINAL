@@ -24,7 +24,7 @@ export default function Landing() {
           transition={{ delay: 0.2, duration: 0.6 }}
           className="text-4xl sm:text-6xl font-display font-bold text-gray-900 mb-2 tracking-tight leading-tight"
         >
-          Find the perfect{" "}
+          Find teh perfect{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500">
             Femboy snuggle buddy!
           </span>
@@ -36,7 +36,7 @@ export default function Landing() {
           transition={{ delay: 0.3, duration: 0.6 }}
           className="text-lg sm:text-xl text-gray-500 italic mb-6"
         >
-          head pats may be required
+          head pats may be required UwU
         </motion.p>
 
         <motion.p
@@ -45,8 +45,8 @@ export default function Landing() {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed"
         >
-          A safe, inclusive, and fun space for Femboys and admirers to meet, chat, and connect. 
-          Join our verified 18+ community today.
+          A safe, inclusive, and fun space for femboys, guys and girls to meet, chat, and connect, regardless of your sexuality. 
+          Join our verified 18+ community today!
         </motion.p>
 
         <motion.div
@@ -58,7 +58,7 @@ export default function Landing() {
           <Link href="/register">
             <div className="px-8 py-4 bg-gray-900 text-white rounded-xl font-bold text-lg hover:bg-gray-800 hover:scale-105 hover:shadow-lg transition-all cursor-pointer flex items-center justify-center gap-2">
               <Sparkles className="w-5 h-5" />
-              Join the Community
+              Join teh Community!
             </div>
           </Link>
           <Link href="/login">
@@ -76,12 +76,12 @@ export default function Landing() {
             <FeatureCard 
               icon={<ShieldCheck className="w-8 h-8 text-emerald-500" />}
               title="Safe & Secure"
-              description="We prioritize your safety with 18+ verification and active community moderation."
+              description="We prioritize your safety with 18+ verification, hashed user data and 100% HUMAN moderation."
             />
             <FeatureCard 
               icon={<Heart className="w-8 h-8 text-pink-500" />}
               title="Inclusive Space"
-              description="Whether you're a femboy or an admirer, find people who appreciate you for you."
+              description="Whether you're a femboy, guy or girl, find someone who appreciates you for you."
             />
             <FeatureCard 
               icon={<Sparkles className="w-8 h-8 text-purple-500" />}
