@@ -18,8 +18,14 @@ export default function AuthPage() {
   const { user } = useAuth();
 
   // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      setLocation("/");
+    }
+  }, [user, setLocation]);
+
+  // Don't draw the login screen if we are about to redirect!
   if (user) {
-    setLocation("/");
     return null;
   }
 
