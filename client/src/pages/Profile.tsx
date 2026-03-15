@@ -208,14 +208,14 @@ export default function Profile() {
   const handleBioSave = async () => {
     try {
       await updateUser.mutateAsync({ bio: newBio.trim() });
-      toast({ title: "Success", description: "Bio updated successfully!" });
+      toast({ title: "Success", description: "Success!" });
       setIsEditingBio(false);
       queryClient.invalidateQueries({ queryKey: ["/api/user"] });
       queryClient.invalidateQueries({ queryKey: ["/api/users", id] });
     } catch (err: any) {
       toast({
         title: "Error",
-        description: err.message || "Failed to update bio",
+        description: err.message || "Oops, try that again",
         variant: "destructive",
       });
     }
@@ -249,7 +249,7 @@ export default function Profile() {
     } catch (err: any) {
       toast({
         title: "Error",
-        description: err.message || "Failed to update preferences",
+        description: err.message || "Oops, try that again!",
         variant: "destructive",
       });
     }
@@ -270,8 +270,8 @@ export default function Profile() {
       <Layout>
         <div className="flex flex-col items-center justify-center h-[60vh] text-center">
           <AlertCircle className="w-12 h-12 text-red-400 mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">User Not Found</h2>
-          <p className="text-gray-500">This profile might have been deleted or doesn't exist.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Can't find dat guy</h2>
+          <p className="text-gray-500">This profile has either been nuked or never existed.</p>
         </div>
       </Layout>
     );
@@ -522,7 +522,7 @@ export default function Profile() {
                     </div>
                   ) : (
                     <p className="text-gray-900 dark:text-gray-100 leading-relaxed whitespace-pre-line text-lg mobile-text-fix">
-                      {user.bio || "This user hasn't written a bio yet."}
+                      {user.bio || "This user was too lazy to write a bio! LAAAAAME!"}
                     </p>
                   )}
                 </section>
@@ -551,7 +551,7 @@ export default function Profile() {
                       <div className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">What are you seeking?</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Whatchu lookin for?</label>
                             <Select value={matchQuestions.seekingType} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, seekingType: v }))}>
                               <SelectTrigger data-testid="select-seeking-type">
                                 <SelectValue placeholder="Select..." />
@@ -564,7 +564,7 @@ export default function Profile() {
                             </Select>
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Relationship type</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Just friends or moar?</label>
                             <Select value={matchQuestions.relationshipType} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, relationshipType: v }))}>
                               <SelectTrigger data-testid="select-relationship-type">
                                 <SelectValue placeholder="Select..." />
@@ -577,7 +577,7 @@ export default function Profile() {
                             </Select>
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Meeting preference</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Online or IRL?</label>
                             <Select value={matchQuestions.meetingPreference} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, meetingPreference: v }))}>
                               <SelectTrigger data-testid="select-meeting-preference">
                                 <SelectValue placeholder="Select..." />
@@ -590,7 +590,7 @@ export default function Profile() {
                             </Select>
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gaming platform</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Whatchu play on?</label>
                             <Select value={matchQuestions.gamingPlatform} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, gamingPlatform: v }))}>
                               <SelectTrigger data-testid="select-gaming-platform">
                                 <SelectValue placeholder="Select..." />
@@ -603,7 +603,7 @@ export default function Profile() {
                             </Select>
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cat or Dog person?</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cats or dogs?</label>
                             <Select value={matchQuestions.catOrDog} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, catOrDog: v }))}>
                               <SelectTrigger data-testid="select-cat-or-dog">
                                 <SelectValue placeholder="Select..." />
@@ -617,7 +617,7 @@ export default function Profile() {
                             </Select>
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Drinking</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Do ya drink?</label>
                             <Select value={matchQuestions.drinking} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, drinking: v }))}>
                               <SelectTrigger data-testid="select-drinking">
                                 <SelectValue placeholder="Select..." />
@@ -630,7 +630,7 @@ export default function Profile() {
                             </Select>
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Smoking</label>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Do ya smoke?</label>
                             <Select value={matchQuestions.smoking} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, smoking: v }))}>
                               <SelectTrigger data-testid="select-smoking">
                                 <SelectValue placeholder="Select..." />
@@ -674,7 +674,7 @@ export default function Profile() {
                             {user.gamingPlatform && <span className="px-2 py-1 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-xs">{user.gamingPlatform}</span>}
                           </div>
                         ) : (
-                          <p className="text-gray-400 italic">No match questions answered yet. Fill these out to see compatibility with other users!</p>
+                          <p className="text-gray-400 italic">You haven't answered teh match questions yet?! How else are we supposed to help find teh perfectest boi?!</p>
                         )}
                       </div>
                     )}
@@ -683,13 +683,13 @@ export default function Profile() {
 
                 <section>
                   <div className="flex items-center justify-between mb-4 border-b border-gray-100 dark:border-gray-700 pb-2">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">Photos</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">Pix</h3>
                     {isOwnProfile && profilePictures.length < 6 && (
                       <label className="cursor-pointer">
                         <Button size="sm" variant="default" asChild>
                           <span>
                             <Plus className="w-4 h-4 mr-1" />
-                            Add Photo
+                            Upload ur cutest pic
                           </span>
                         </Button>
                         <input
@@ -735,7 +735,7 @@ export default function Profile() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-gray-400 text-sm">No photos uploaded yet.</p>
+                    <p className="text-gray-400 text-sm">Show off dat pretty face!.</p>
                   )}
                 </section>
               </div>
@@ -746,24 +746,24 @@ export default function Profile() {
                     <ul className="space-y-3 text-sm text-gray-900 dark:text-gray-200 mobile-text-fix">
                        <li className="flex gap-2">
                          <span className="text-purple-500 dark:text-purple-400">•</span>
-                         <span className="mobile-text-fix">Never share financial info</span>
+                         <span className="mobile-text-fix">NEVER share financial info!!</span>
                        </li>
                        <li className="flex gap-2">
                          <span className="text-purple-500 dark:text-purple-400">•</span>
-                         <span className="mobile-text-fix">Meet in public places first</span>
+                         <span className="mobile-text-fix">Get to know da person WELL before even considering to meet up.</span>
                        </li>
                        <li className="flex gap-2">
                          <span className="text-purple-500 dark:text-purple-400">•</span>
-                         <span className="mobile-text-fix">Trust your instincts</span>
+                         <span className="mobile-text-fix">Don't be STOOPID. Trust yer gut!</span>
                        </li>
                     </ul>
                  </div>
 
                  {isOwnProfile && (
                    <div className="bg-red-50 dark:bg-red-900/20 rounded-2xl p-6 border border-red-100 dark:border-red-800">
-                     <h3 className="font-bold text-red-700 dark:text-red-400 mb-2">Delete Account</h3>
+                     <h3 className="font-bold text-red-700 dark:text-red-400 mb-2">Nuke Account</h3>
                      <p className="text-sm text-red-600 dark:text-red-300 mb-4">
-                       Permanently delete your account and all associated data. This action cannot be undone.
+                       Banish your account and all teh data to da shadow realm. THIS IS PERMANENT, ADMIN CANNOT RESTORE UR FILEZ.
                      </p>
                      {!showDeleteConfirm ? (
                        <Button 
@@ -773,12 +773,12 @@ export default function Profile() {
                          data-testid="button-show-delete-account"
                        >
                          <Trash2 className="w-4 h-4 mr-1" />
-                         Delete My Account
+                         Nuke My Account
                        </Button>
                      ) : (
                        <div className="space-y-3">
                          <p className="text-sm font-medium text-red-700 dark:text-red-300">
-                           Are you sure? This will permanently delete your account, messages, and photos.
+                           Are you sure? You're about to banish your account, messages, and photos to teh shadow realm.
                          </p>
                          <div className="flex gap-2">
                            <Button
@@ -793,7 +793,7 @@ export default function Profile() {
                              ) : (
                                <Trash2 className="w-4 h-4 mr-1" />
                              )}
-                             Yes, Delete Forever
+                             YASS BITCH, BYE!
                            </Button>
                            <Button
                              variant="outline"
@@ -801,7 +801,7 @@ export default function Profile() {
                              onClick={() => setShowDeleteConfirm(false)}
                              data-testid="button-cancel-delete-account"
                            >
-                             Cancel
+                             Nah I changed my mind
                            </Button>
                          </div>
                        </div>
