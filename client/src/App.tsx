@@ -21,11 +21,10 @@ import NotFound from "@/pages/not-found";
 
 const PROFILE_PICTURE_REQUIRED_AFTER = new Date("2026-01-08T00:00:00Z");
 
-// Check if a user is required to have a profile picture (created after the cutoff date)
-// IMPORTANT: If createdAt is missing, treat as existing user (not required) to avoid locking out legacy accounts
+// Check if a user is required to have a profile picture
 function isProfilePictureRequired(user: { createdAt?: Date | string | null; profilePicture?: string | null }) {
   if (user.profilePicture) return false;
-  if (!user.createdAt) return false; // Existing users without createdAt are NOT required
+  if (!user.createdAt) return false; 
   const createdAt = new Date(user.createdAt);
   return createdAt >= PROFILE_PICTURE_REQUIRED_AFTER;
 }
@@ -70,35 +69,37 @@ function Router() {
   return (
     <Switch>
       <Route path="/">
-        {user ? (isProfilePictureRequired(user) ? <Redirect to="/complete-profile" /> : <Dashboard />) : <Landing />}
+        {() => user ? (isProfilePictureRequired(user) ? <Redirect to="/complete-profile" /> : <Dashboard />) : <Landing />}
       </Route>
       
+      {/* Auth Routes */}
+      <Route path="/auth" component={AuthPage} />
       <Route path="/login" component={AuthPage} />
       <Route path="/register" component={AuthPage} />
       <Route path="/reset-password" component={ResetPassword} />
+      
+      {/* Legal Routes */}
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/terms" component={TermsOfService} />
+      
+      {/* Protected Routes */}
       <Route path="/complete-profile">
         {() => <ProtectedRoute component={CompleteProfile} allowWithoutProfilePic={true} />}
       </Route>
-      
-      {/* Protected Routes */}
       <Route path="/dashboard">
          {() => <ProtectedRoute component={Dashboard} />}
       </Route>
-      
       <Route path="/profile/:id">
          {() => <ProtectedRoute component={Profile} />}
       </Route>
-
       <Route path="/messages">
          {() => <ProtectedRoute component={Messages} />}
       </Route>
-
       <Route path="/admin">
          {() => <ProtectedRoute component={Admin} />}
       </Route>
 
+      {/* Fallback */}
       <Route component={NotFound} />
     </Switch>
   );
