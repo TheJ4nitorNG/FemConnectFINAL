@@ -91,7 +91,7 @@ export function setupAuth(app: Express) {
     store: new PgStore({
       pool,
       tableName: "session",
-      createTableIfMissing: false,
+      createTableIfMissing: false, // Changed to false so it doesn't look for table.sql
     }),
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000,
