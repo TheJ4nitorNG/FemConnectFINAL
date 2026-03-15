@@ -39,7 +39,7 @@ export default function AuthPage() {
                FemConnect
              </h1>
           </Link>
-          <p className="text-gray-500 mt-2">Find your perfect match today</p>
+          <p className="text-gray-500 mt-2">Find teh perfect femboy snuggle buddy!!</p>
         </div>
 
         <div className="bg-white rounded-3xl shadow-xl border border-white/50 backdrop-blur-sm overflow-hidden">
@@ -58,7 +58,7 @@ export default function AuthPage() {
                 !isLogin ? "text-purple-600 bg-purple-50/50" : "text-gray-500 hover:text-gray-700"
               }`}
             >
-              Create Account
+              New Account
             </button>
           </div>
 
@@ -146,7 +146,7 @@ function LoginForm() {
           }}
           data-testid="input-username"
           className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all ios-input-fix"
-          placeholder="Enter your username"
+          placeholder="Whats it gonna be?"
           autoComplete="username"
         />
         {form.formState.errors.username && (
@@ -165,7 +165,7 @@ function LoginForm() {
           }}
           data-testid="input-password"
           className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all ios-input-fix"
-          placeholder="Enter your password"
+          placeholder="Your password, sir"
           autoComplete="current-password"
         />
         {form.formState.errors.password && (
@@ -180,7 +180,7 @@ function LoginForm() {
           data-testid="link-forgot-password"
           className="text-sm text-purple-600 hover:text-purple-700 hover:underline"
         >
-          Forgot password?
+          Did ya forget?
         </button>
       </div>
 
@@ -228,14 +228,14 @@ function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
         </div>
         <h3 className="text-lg font-semibold text-gray-900">Check your email</h3>
         <p className="text-sm text-gray-600">
-          If an account exists with that email, we've sent you a password reset link. Please check your inbox and spam folder.
+          If that account exists, we sent ya a password reset link! CHECK YA SPAM IF ITS NOT IN DA INBOX
         </p>
         <button
           onClick={onBack}
           className="text-sm text-purple-600 hover:text-purple-700 hover:underline flex items-center justify-center gap-1 mx-auto"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to login
+          Go Back
         </button>
       </div>
     );
@@ -249,13 +249,13 @@ function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
         className="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-1"
       >
         <ArrowLeft className="w-4 h-4" />
-        Back to login
+        Go Back
       </button>
 
       <div className="text-center">
         <h3 className="text-lg font-semibold text-gray-900">Reset your password</h3>
         <p className="text-sm text-gray-600 mt-1">
-          Enter your email address and we'll send you a link to reset your password.
+          Enter teh email you signed up with, n we'll send ya a password reset link.
         </p>
       </div>
 
@@ -267,7 +267,7 @@ function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
           onChange={(e) => setEmail(e.target.value)}
           data-testid="input-forgot-email"
           className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition-all ios-input-fix"
-          placeholder="Enter your email"
+          placeholder="Email goez here"
         />
       </div>
 
@@ -277,7 +277,7 @@ function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
         data-testid="button-reset-request"
         className="w-full py-3.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold shadow-lg hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
-        {isSubmitting ? <Loader2 className="animate-spin w-5 h-5" /> : "Send Reset Link"}
+        {isSubmitting ? <Loader2 className="animate-spin w-5 h-5" /> : "Send Dat Shi"}
       </button>
     </form>
   );
@@ -285,15 +285,15 @@ function ForgotPasswordForm({ onBack }: { onBack: () => void }) {
 
 const COMMUNITY_RULES = [
   "Treat everyone with respect and kindness. Harassment, hate speech, or discrimination will not be tolerated.",
-  "All users must be 18 years or older. No exceptions.",
-  "No unsolicited explicit content in messages. Always get consent before sharing NSFW material.",
-  "Profile pictures must be of yourself. No fake profiles or catfishing.",
+  "All users must be 18 years or older. NO EXCEPTIONS, GTFO TODDLER.",
+  "No unsolicited dick pix in messages ffs, BE CIVILIZED. At least get consent.",
+  "Profile pictures MUST BE of yourself, for verification purposes. No fake profiles or catfishing.",
   "Do not share personal information of others without their consent.",
   "Report any suspicious or inappropriate behavior to our moderators.",
   "No spam, scams, or promotional content.",
-  "Respect boundaries. If someone isn't interested, accept it gracefully.",
+  "Respect boundaries. If someone isn't interested, frig off.",
   "Keep conversations safe. Never share financial information or send money to other users.",
-  "Have fun and be yourself! This is a community built on authenticity and connection.",
+  "Have fun and be yourself! This is a community built on authenticity, connection and headpats.",
 ];
 
 function RegisterForm() {
@@ -403,8 +403,8 @@ function RegisterForm() {
             exit={{ opacity: 0, x: -20 }}
             className="space-y-4"
           >
-            <h3 className="text-lg font-bold text-gray-900 text-center">Community Rules</h3>
-            <p className="text-sm text-gray-600 text-center">Please read and agree to our community guidelines</p>
+            <h3 className="text-lg font-bold text-gray-900 text-center">DA RULEZ</h3>
+            <p className="text-sm text-gray-600 text-center">Please ACTUALLY fkn read these and agree</p>
             
             <div className="max-h-60 overflow-y-auto space-y-3 p-3 bg-gray-50 rounded-lg border">
               {COMMUNITY_RULES.map((rule, index) => (
@@ -424,7 +424,7 @@ function RegisterForm() {
                 className="w-5 h-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
               />
               <span className="text-sm font-medium text-purple-900">
-                I have read and agree to follow these community rules
+                Yeah yeah I read em, & I agree
               </span>
             </label>
 
@@ -435,7 +435,7 @@ function RegisterForm() {
               data-testid="button-rules-continue"
               className="w-full py-3.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold shadow-lg hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              I Agree - Continue <ArrowRight className="w-4 h-4" />
+              Yeah, I agree <ArrowRight className="w-4 h-4" />
             </button>
           </motion.div>
         )}
@@ -549,7 +549,7 @@ function RegisterForm() {
                 onChange={(e) => updateFormData("connectionGoal", e.target.value)}
                 data-testid="input-register-connection-goal"
                 className="w-full px-3 py-2.5 rounded-lg border border-gray-200 focus:border-purple-500 outline-none ios-input-fix"
-                placeholder="What are you looking for? (min 10 chars)"
+                placeholder="Whatcha looking for? (min 10 chars)"
               />
             </div>
 
@@ -582,11 +582,11 @@ function RegisterForm() {
             className="space-y-4"
           >
             <h3 className="text-lg font-bold text-gray-900 text-center">Match Questions</h3>
-            <p className="text-sm text-gray-600 text-center">Help us find your perfect match!</p>
+            <p className="text-sm text-gray-600 text-center">These answers will halp find your best match!</p>
 
             <div className="max-h-80 overflow-y-auto space-y-4 pr-2">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">I am a...</label>
+                <label className="text-sm font-medium text-gray-700">I r...</label>
                 <select
                   value={formData.seekingType}
                   onChange={(e) => updateFormData("seekingType", e.target.value)}
@@ -601,7 +601,7 @@ function RegisterForm() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">What are you looking for?</label>
+                <label className="text-sm font-medium text-gray-700">What kinda relationship you lookin fer?</label>
                 <select
                   value={formData.relationshipType}
                   onChange={(e) => updateFormData("relationshipType", e.target.value)}
