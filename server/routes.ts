@@ -66,7 +66,7 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express,
 ): Promise<Server> {
-  setupAuth(app);
+  await setupAuth(app); // <-- Added await! Now the shield waits its turn!
   registerObjectStorageRoutes(app);
   await seed();
 
