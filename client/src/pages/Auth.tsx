@@ -13,8 +13,9 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useUpload } from "@/hooks/use-upload";
 
 export default function AuthPage() {
-  const [isLogin, setIsLogin] = useState(true);
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
+  // Automatically switch to the register tab if the URL is /register!
+  const [isLogin, setIsLogin] = useState(location !== "/register");
   const { user } = useAuth();
 
   // Redirect if already logged in
