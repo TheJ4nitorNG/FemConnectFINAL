@@ -159,7 +159,7 @@ export default function Profile() {
     } catch (err) {
       toast({ 
         title: "Error", 
-        description: "Failed to upload image",
+        description: "OOPS! Refresh the page and try that again!",
         variant: "destructive"
       });
     }
@@ -188,7 +188,7 @@ export default function Profile() {
     } catch (err: any) {
       toast({
         title: "Error",
-        description: err.message || "Failed to update username",
+        description: err.message || "OOPS! Refresh the page and try that again!",
         variant: "destructive",
       });
     }
@@ -214,7 +214,7 @@ export default function Profile() {
     } catch (err: any) {
       toast({
         title: "Error",
-        description: err.message || "Oops, try that again",
+        description: err.message || "Oops! Refresh the page and try that again",
         variant: "destructive",
       });
     }
@@ -526,173 +526,205 @@ export default function Profile() {
                   )}
                 </section>
 
-                {/* THE CORRECTED MATCH QUESTIONS SECTION */}
-                {isOwnProfile && (
-                  <section>
-                    <div className="flex items-center justify-between mb-4 border-b border-gray-100 dark:border-gray-700 pb-2">
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                        <Heart className="w-5 h-5 text-pink-500" />
-                        Match Questions
-                      </h3>
-                      {!isEditingMatchQuestions && (
+                <section>
+                  <div className="flex items-center justify-between mb-4 border-b border-gray-100 dark:border-gray-700 pb-2">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                      <Heart className="w-5 h-5 text-pink-500" />
+                      Match Questions
+                    </h3>
+                    {isOwnProfile && !isEditingMatchQuestions && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={handleMatchQuestionsEdit}
+                        data-testid="button-edit-match-questions"
+                      >
+                        <Pencil className="w-4 h-4 mr-1" />
+                        Edit
+                      </Button>
+                    )}
+                  </div>
+                  
+                  {isOwnProfile && isEditingMatchQuestions ? (
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Whatchu lookin for?</label>
+                          <Select value={matchQuestions.seekingType} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, seekingType: v }))}>
+                            <SelectTrigger data-testid="select-seeking-type">
+                              <SelectValue placeholder="Select..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {SEEKING_TYPES.map((type) => (
+                                <SelectItem key={type} value={type}>{type}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Just friends or something moar?</label>
+                          <Select value={matchQuestions.relationshipType} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, relationshipType: v }))}>
+                            <SelectTrigger data-testid="select-relationship-type">
+                              <SelectValue placeholder="Select..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {RELATIONSHIP_TYPES.map((type) => (
+                                <SelectItem key={type} value={type}>{type}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Online or IRL?</label>
+                          <Select value={matchQuestions.meetingPreference} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, meetingPreference: v }))}>
+                            <SelectTrigger data-testid="select-meeting-preference">
+                              <SelectValue placeholder="Select..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {MEETING_PREFERENCES.map((type) => (
+                                <SelectItem key={type} value={type}>{type}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">What gaming platform you play on?</label>
+                          <Select value={matchQuestions.gamingPlatform} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, gamingPlatform: v }))}>
+                            <SelectTrigger data-testid="select-gaming-platform">
+                              <SelectValue placeholder="Select..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {GAMING_PLATFORMS.map((type) => (
+                                <SelectItem key={type} value={type}>{type}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cat Person or Dog Person?</label>
+                          <Select value={matchQuestions.catOrDog} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, catOrDog: v }))}>
+                            <SelectTrigger data-testid="select-cat-or-dog">
+                              <SelectValue placeholder="Select..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Cat">Cat</SelectItem>
+                              <SelectItem value="Dog">Dog</SelectItem>
+                              <SelectItem value="Both">Both</SelectItem>
+                              <SelectItem value="Neither">Neither</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Do ya drink?</label>
+                          <Select value={matchQuestions.drinking} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, drinking: v }))}>
+                            <SelectTrigger data-testid="select-drinking">
+                              <SelectValue placeholder="Select..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Never">Never</SelectItem>
+                              <SelectItem value="Socially">Socially</SelectItem>
+                              <SelectItem value="Regularly">Regularly</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Do ya smoke?</label>
+                          <Select value={matchQuestions.smoking} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, smoking: v }))}>
+                            <SelectTrigger data-testid="select-smoking">
+                              <SelectValue placeholder="Select..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Never">Never</SelectItem>
+                              <SelectItem value="Sometimes">Sometimes</SelectItem>
+                              <SelectItem value="Regularly">Regularly</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                      <div className="flex gap-2 pt-2">
                         <Button
                           size="sm"
-                          variant="ghost"
-                          onClick={handleMatchQuestionsEdit}
-                          data-testid="button-edit-match-questions"
+                          onClick={handleMatchQuestionsSave}
+                          disabled={updateUser.isPending}
+                          data-testid="button-save-match-questions"
                         >
-                          <Pencil className="w-4 h-4 mr-1" />
-                          Edit
+                          <Check className="w-4 h-4 mr-1" />
+                          Save
                         </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setIsEditingMatchQuestions(false)}
+                          data-testid="button-cancel-match-questions"
+                        >
+                          <X className="w-4 h-4 mr-1" />
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-4 text-sm text-gray-600 dark:text-gray-400">
+                      {user.seekingType || user.relationshipType || user.meetingPreference || user.gamingPlatform || user.catOrDog || user.drinking || user.smoking ? (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-2">
+                          {user.seekingType && (
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">What you Looking For?</span>
+                              <span className="w-fit px-2.5 py-1 bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 rounded-full text-xs font-medium">{user.seekingType}</span>
+                            </div>
+                          )}
+                          {user.relationshipType && (
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Just Friends or Moar?</span>
+                              <span className="w-fit px-2.5 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full text-xs font-medium">{user.relationshipType}</span>
+                            </div>
+                          )}
+                          {user.meetingPreference && (
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Online or IRL?</span>
+                              <span className="w-fit px-2.5 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs font-medium">{user.meetingPreference}</span>
+                            </div>
+                          )}
+                          {user.gamingPlatform && (
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">What Platform you Play on?</span>
+                              <span className="w-fit px-2.5 py-1 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-xs font-medium">{user.gamingPlatform}</span>
+                            </div>
+                          )}
+                          {user.catOrDog && (
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Cat or Dog Person?</span>
+                              <span className="w-fit px-2.5 py-1 bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-xs font-medium">{user.catOrDog}</span>
+                            </div>
+                          )}
+                          {user.drinking && (
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Do you Drink?</span>
+                              <span className="w-fit px-2.5 py-1 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 rounded-full text-xs font-medium">{user.drinking}</span>
+                            </div>
+                          )}
+                          {user.smoking && (
+                            <div className="flex flex-col gap-1.5">
+                              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Do you Smoke?</span>
+                              <span className="w-fit px-2.5 py-1 bg-slate-50 dark:bg-slate-900/30 text-slate-600 dark:text-slate-400 rounded-full text-xs font-medium">{user.smoking}</span>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-gray-400 italic">You haven't answered the match questions yet?! Then how are we supposed to help you find teh perfectest boi?!</p>
                       )}
                     </div>
-                    
-                    {isEditingMatchQuestions ? (
-                      <div className="space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Whatchu lookin for?</label>
-                            <Select value={matchQuestions.seekingType} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, seekingType: v }))}>
-                              <SelectTrigger data-testid="select-seeking-type">
-                                <SelectValue placeholder="Select..." />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {SEEKING_TYPES.map((type) => (
-                                  <SelectItem key={type} value={type}>{type}</SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Just friends or moar?</label>
-                            <Select value={matchQuestions.relationshipType} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, relationshipType: v }))}>
-                              <SelectTrigger data-testid="select-relationship-type">
-                                <SelectValue placeholder="Select..." />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {RELATIONSHIP_TYPES.map((type) => (
-                                  <SelectItem key={type} value={type}>{type}</SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Online or IRL?</label>
-                            <Select value={matchQuestions.meetingPreference} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, meetingPreference: v }))}>
-                              <SelectTrigger data-testid="select-meeting-preference">
-                                <SelectValue placeholder="Select..." />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {MEETING_PREFERENCES.map((type) => (
-                                  <SelectItem key={type} value={type}>{type}</SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Whatchu play on?</label>
-                            <Select value={matchQuestions.gamingPlatform} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, gamingPlatform: v }))}>
-                              <SelectTrigger data-testid="select-gaming-platform">
-                                <SelectValue placeholder="Select..." />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {GAMING_PLATFORMS.map((type) => (
-                                  <SelectItem key={type} value={type}>{type}</SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cats or dogs?</label>
-                            <Select value={matchQuestions.catOrDog} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, catOrDog: v }))}>
-                              <SelectTrigger data-testid="select-cat-or-dog">
-                                <SelectValue placeholder="Select..." />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="Cat">Cat</SelectItem>
-                                <SelectItem value="Dog">Dog</SelectItem>
-                                <SelectItem value="Both">Both</SelectItem>
-                                <SelectItem value="Neither">Neither</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Do ya drink?</label>
-                            <Select value={matchQuestions.drinking} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, drinking: v }))}>
-                              <SelectTrigger data-testid="select-drinking">
-                                <SelectValue placeholder="Select..." />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="Never">Never</SelectItem>
-                                <SelectItem value="Socially">Socially</SelectItem>
-                                <SelectItem value="Regularly">Regularly</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Do ya smoke?</label>
-                            <Select value={matchQuestions.smoking} onValueChange={(v) => setMatchQuestions(prev => ({ ...prev, smoking: v }))}>
-                              <SelectTrigger data-testid="select-smoking">
-                                <SelectValue placeholder="Select..." />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="Never">Never</SelectItem>
-                                <SelectItem value="Sometimes">Sometimes</SelectItem>
-                                <SelectItem value="Regularly">Regularly</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </div>
-                        <div className="flex gap-2 pt-2">
-                          <Button
-                            size="sm"
-                            onClick={handleMatchQuestionsSave}
-                            disabled={updateUser.isPending}
-                            data-testid="button-save-match-questions"
-                          >
-                            <Check className="w-4 h-4 mr-1" />
-                            Save
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => setIsEditingMatchQuestions(false)}
-                            data-testid="button-cancel-match-questions"
-                          >
-                            <X className="w-4 h-4 mr-1" />
-                            Cancel
-                          </Button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                        {user.seekingType || user.relationshipType || user.meetingPreference || user.gamingPlatform || user.catOrDog || user.drinking || user.smoking ? (
-                          <div className="flex flex-wrap gap-2">
-                            {user.seekingType && <span className="px-2 py-1 bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 rounded-full text-xs">{user.seekingType}</span>}
-                            {user.relationshipType && <span className="px-2 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full text-xs">{user.relationshipType}</span>}
-                            {user.meetingPreference && <span className="px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full text-xs">{user.meetingPreference}</span>}
-                            {user.gamingPlatform && <span className="px-2 py-1 bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full text-xs">{user.gamingPlatform}</span>}
-                            {user.catOrDog && <span className="px-2 py-1 bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full text-xs">{user.catOrDog}</span>}
-                            {user.drinking && <span className="px-2 py-1 bg-yellow-50 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 rounded-full text-xs">{user.drinking}</span>}
-                            {user.smoking && <span className="px-2 py-1 bg-slate-50 dark:bg-slate-900/30 text-slate-600 dark:text-slate-400 rounded-full text-xs">{user.smoking}</span>}
-                          </div>
-                        ) : (
-                          <p className="text-gray-400 italic">You haven't answered teh match questions yet?! How else are we supposed to help find teh perfectest boi?!</p>
-                        )}
-                      </div>
-                    )}
-                  </section>
-                )}
+                  )}
+                </section>
 
                 <section>
                   <div className="flex items-center justify-between mb-4 border-b border-gray-100 dark:border-gray-700 pb-2">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">Pix</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">Pics</h3>
                     {isOwnProfile && profilePictures.length < 6 && (
                       <label className="cursor-pointer">
                         <Button size="sm" variant="default" asChild>
                           <span>
                             <Plus className="w-4 h-4 mr-1" />
-                            Upload ur cutest pic
+                            Upload ur cutest pics!
                           </span>
                         </Button>
                         <input
@@ -749,11 +781,11 @@ export default function Profile() {
                     <ul className="space-y-3 text-sm text-gray-900 dark:text-gray-200 mobile-text-fix">
                        <li className="flex gap-2">
                          <span className="text-purple-500 dark:text-purple-400">•</span>
-                         <span className="mobile-text-fix">NEVER share financial info!!</span>
+                         <span className="mobile-text-fix">NEVER, EVER share financial info!!</span>
                        </li>
                        <li className="flex gap-2">
                          <span className="text-purple-500 dark:text-purple-400">•</span>
-                         <span className="mobile-text-fix">Get to know da person WELL before even considering to meet up.</span>
+                         <span className="mobile-text-fix">Get to know the person WELL before even CONSIDERING a meet-up.</span>
                        </li>
                        <li className="flex gap-2">
                          <span className="text-purple-500 dark:text-purple-400">•</span>
@@ -766,7 +798,7 @@ export default function Profile() {
                    <div className="bg-red-50 dark:bg-red-900/20 rounded-2xl p-6 border border-red-100 dark:border-red-800">
                      <h3 className="font-bold text-red-700 dark:text-red-400 mb-2">Nuke Account</h3>
                      <p className="text-sm text-red-600 dark:text-red-300 mb-4">
-                       Banish your account and all teh data to da shadow realm. THIS IS PERMANENT, ADMIN CANNOT RESTORE UR FILEZ.
+                       Banish your account and all the data to da shadow realm. THIS IS PERMANENT, ADMIN CANNOT RESTORE YOUR FILES.
                      </p>
                      {!showDeleteConfirm ? (
                        <Button 
@@ -781,7 +813,7 @@ export default function Profile() {
                      ) : (
                        <div className="space-y-3">
                          <p className="text-sm font-medium text-red-700 dark:text-red-300">
-                           Are you sure? You're about to banish your account, messages, and photos to teh shadow realm.
+                           Are you sure? You're about to banish your account, messages, and photos to the shadow realm.
                          </p>
                          <div className="flex gap-2">
                            <Button
@@ -804,7 +836,7 @@ export default function Profile() {
                              onClick={() => setShowDeleteConfirm(false)}
                              data-testid="button-cancel-delete-account"
                            >
-                             Nah I changed my mind
+                             Nah nvm
                            </Button>
                          </div>
                        </div>
